@@ -1,31 +1,10 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Aug 04, 2026 at 03:20 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `airline_reservation`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `aircraft`
---
+-- Database: airline_reservation
 
 CREATE TABLE `aircraft` (
   `AircraftID` int(11) NOT NULL,
@@ -36,7 +15,7 @@ CREATE TABLE `aircraft` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `aircraft`
+-- table `aircraft`
 --
 
 INSERT INTO `aircraft` (`AircraftID`, `Model`, `Manufacturer`, `SeatingCapacity`, `MaintenanceStatus`) VALUES
@@ -45,11 +24,10 @@ INSERT INTO `aircraft` (`AircraftID`, `Model`, `Manufacturer`, `SeatingCapacity`
 (3, 'Boeing 787-9', 'Boeing', 290, 'Under Maintenance'),
 (4, 'Airbus A320neo', 'Airbus', 180, 'Active');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `airport`
---
+
+-- table `airport`
+
 
 CREATE TABLE `airport` (
   `AirportID` int(11) NOT NULL,
@@ -59,9 +37,8 @@ CREATE TABLE `airport` (
   `AirportCode` char(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `airport`
---
+
+-- table `airport`
 
 INSERT INTO `airport` (`AirportID`, `AirportName`, `City`, `Country`, `AirportCode`) VALUES
 (1, 'Hazrat Shahjalal International Airport', 'Dhaka', 'Bangladesh', 'DAC'),
@@ -70,11 +47,9 @@ INSERT INTO `airport` (`AirportID`, `AirportName`, `City`, `Country`, `AirportCo
 (4, 'Dubai International Airport', 'Dubai', 'UAE', 'DXB'),
 (5, 'Changi Airport', 'Singapore', 'Singapore', 'SIN');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `booking`
---
+--table `booking`
+
 
 CREATE TABLE `booking` (
   `BookingID` int(11) NOT NULL,
@@ -86,9 +61,9 @@ CREATE TABLE `booking` (
   `BookingStatus` varchar(20) NOT NULL DEFAULT 'Confirmed'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `booking`
---
+
+-- table `booking`
+
 
 INSERT INTO `booking` (`BookingID`, `PassengerID`, `FlightID`, `BookingDate`, `SeatNumber`, `TravelClass`, `BookingStatus`) VALUES
 (1, 1, 1, '2026-08-01', '12A', 'Economy', 'Confirmed'),
@@ -102,9 +77,9 @@ INSERT INTO `booking` (`BookingID`, `PassengerID`, `FlightID`, `BookingDate`, `S
 (9, 3, 1, '2026-08-07', '14C', 'Economy', 'Confirmed'),
 (10, 3, 1, '2026-08-07', '16D', 'Economy', 'Confirmed');
 
---
+
 -- Triggers `booking`
---
+
 DELIMITER $$
 CREATE TRIGGER `after_booking_delete` AFTER DELETE ON `booking` FOR EACH ROW BEGIN
     INSERT INTO BOOKING_LOG (BookingID, PassengerID, FlightID, BookingDate, SeatNumber, TravelClass, BookingStatus, DeletedAt)
@@ -129,11 +104,11 @@ END
 $$
 DELIMITER ;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `booking_log`
---
+
+
+-- table `booking_log`
+
 
 CREATE TABLE `booking_log` (
   `LogID` int(11) NOT NULL,
@@ -147,11 +122,10 @@ CREATE TABLE `booking_log` (
   `DeletedAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `crew`
---
+
+
+-- table `crew`
 
 CREATE TABLE `crew` (
   `CrewID` int(11) NOT NULL,
@@ -161,9 +135,9 @@ CREATE TABLE `crew` (
   `EmploymentStatus` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `crew`
---
+
+-- data for table `crew`
+
 
 INSERT INTO `crew` (`CrewID`, `Name`, `Position`, `LicenseNumber`, `EmploymentStatus`) VALUES
 (1, 'Karim Islam', 'Pilot', 'LIC1001', 'Active'),
@@ -172,11 +146,11 @@ INSERT INTO `crew` (`CrewID`, `Name`, `Position`, `LicenseNumber`, `EmploymentSt
 (4, 'Sara Khan', 'Flight Attendant', 'LIC2002', 'Active'),
 (5, 'Tom Becker', 'Purser', 'LIC3001', 'Active');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `flight`
---
+
+
+--  table `flight`
+
 
 CREATE TABLE `flight` (
   `FlightID` int(11) NOT NULL,
@@ -189,9 +163,8 @@ CREATE TABLE `flight` (
   `FlightStatus` varchar(20) NOT NULL DEFAULT 'Scheduled'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `flight`
---
+
+--  data for table `flight`
 
 INSERT INTO `flight` (`FlightID`, `FlightNumber`, `DepartureAirportID`, `ArrivalAirportID`, `AircraftID`, `DepartureTime`, `ArrivalTime`, `FlightStatus`) VALUES
 (1, 'BG147', 1, 4, 1, '2026-08-10 08:00:00', '2026-08-10 13:30:00', 'Scheduled'),
@@ -201,11 +174,11 @@ INSERT INTO `flight` (`FlightID`, `FlightNumber`, `DepartureAirportID`, `Arrival
 (5, 'BA204', 3, 2, 2, '2026-08-14 10:00:00', '2026-08-14 13:00:00', 'Scheduled'),
 (6, 'BG150', 1, 4, 4, '2026-08-15 06:00:00', '2026-08-15 10:00:00', 'Cancelled');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `flight_crew`
---
+
+
+-- table `flight_crew`
+
 
 CREATE TABLE `flight_crew` (
   `FlightID` int(11) NOT NULL,
@@ -213,9 +186,9 @@ CREATE TABLE `flight_crew` (
   `RoleOnFlight` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `flight_crew`
---
+
+-- data for table `flight_crew`
+
 
 INSERT INTO `flight_crew` (`FlightID`, `CrewID`, `RoleOnFlight`) VALUES
 (1, 1, 'Pilot'),
@@ -231,11 +204,11 @@ INSERT INTO `flight_crew` (`FlightID`, `CrewID`, `RoleOnFlight`) VALUES
 (5, 4, 'Flight Attendant'),
 (6, 1, 'Pilot');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `passenger`
---
+
+
+-- table `passenger`
+
 
 CREATE TABLE `passenger` (
   `PassengerID` int(11) NOT NULL,
@@ -246,9 +219,9 @@ CREATE TABLE `passenger` (
   `Email` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `passenger`
---
+
+-- data for table `passenger`
+
 
 INSERT INTO `passenger` (`PassengerID`, `FullName`, `PassportNumber`, `Nationality`, `PhoneNumber`, `Email`) VALUES
 (1, 'Abdur Rahman', 'BD1234567', 'Bangladeshi', '01711111111', 'abdur.rahman@example.com'),
@@ -260,11 +233,10 @@ INSERT INTO `passenger` (`PassengerID`, `FullName`, `PassportNumber`, `Nationali
 (7, 'Priya Sharma', 'IN6655443', 'Indian', '919876543210', 'priya.sharma@example.com'),
 (8, 'Wei Chen', 'SG3344556', 'Singaporean', '6591234567', 'wei.chen@example.com');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `payment`
---
+
+
+--  table `payment`
 
 CREATE TABLE `payment` (
   `PaymentID` int(11) NOT NULL,
@@ -278,9 +250,8 @@ CREATE TABLE `payment` (
   `Final_Amount` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `payment`
---
+
+-- data for table `payment`
 
 INSERT INTO `payment` (`PaymentID`, `BookingID`, `Amount`, `PaymentMethod`, `PaymentDate`, `PaymentStatus`, `Tax`, `Discount`, `Final_Amount`) VALUES
 (1, 1, 450.00, 'Credit Card', '2026-08-01', 'Completed', 20.00, 10.00, 460.00),
@@ -292,9 +263,9 @@ INSERT INTO `payment` (`PaymentID`, `BookingID`, `Amount`, `PaymentMethod`, `Pay
 (7, 7, 200.00, 'Credit Card', '2026-08-05', 'Refunded', 0.00, 0.00, NULL),
 (8, 8, 1100.00, 'Bank Transfer', '2026-08-06', 'Completed', 0.00, 0.00, NULL);
 
---
+
 -- Triggers `payment`
---
+
 DELIMITER $$
 CREATE TRIGGER `before_payment_update` BEFORE UPDATE ON `payment` FOR EACH ROW BEGIN
     SET NEW.Final_Amount = NEW.Amount + IFNULL(NEW.Tax, 0) - IFNULL(NEW.Discount, 0);
@@ -302,11 +273,11 @@ END
 $$
 DELIMITER ;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `users`
---
+
+
+-- table `users`
+
 
 CREATE TABLE `users` (
   `UserID` int(11) NOT NULL,
@@ -316,20 +287,20 @@ CREATE TABLE `users` (
   `CreatedAt` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `users`
---
+
+--data for table `users`
+
 
 INSERT INTO `users` (`UserID`, `Username`, `Email`, `PasswordHash`, `CreatedAt`) VALUES
 (1, 'testuser', 'test1@gmail.com', '$2y$10$BrDLYVpCPJtIpH6jfjljde99tj4cFwtf5gLjgYfz5lfti3r/NenCq', '2026-08-04 15:36:34');
 
---
--- Indexes for dumped tables
---
 
---
+-- Indexes for  tables
+
+
+
 -- Indexes for table `aircraft`
---
+
 ALTER TABLE `aircraft`
   ADD PRIMARY KEY (`AircraftID`);
 
@@ -492,6 +463,3 @@ ALTER TABLE `payment`
   ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`BookingID`) REFERENCES `booking` (`BookingID`);
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
